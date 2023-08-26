@@ -1,0 +1,56 @@
+/**
+  39890    * Use Local Repo if some network issues exist
+  39891    */
+  39892   onNetworkIssuesExist: function () {
+  39893     if (this.get('networkIssuesExist')) {
+  39894       this.get('content.stacks').forEach(function (stack) {
+  39895         stack.setProperties({
+  39896           usePublicRepo: false,
+  39897           useLocalRepo: true
+  39898         });
+  39899         stack.cleanReposBaseUrls();
+  39900       });
+  39901     }
+  39902   }.observes('networkIssuesExist'),
+
+  Replace the above stanzas with the following:
+
+/**
+   * Use Local Repo if some network issues exist
+   */
+  onNetworkIssuesExist: function () {
+    if (this.get('networkIssuesExist')) {
+      this.get('content.stacks').forEach(function (stack) {
+        if(stack.get('useLocalRepo') != true){
+          stack.setProperties({
+            usePublicRepo: false,
+            useLocalRepo: true
+          });
+          stack.cleanReposBaseUrls();
+        } 
+      });
+    }
+  }.observes('networkIssuesExist'),
+  
+  
+  
+  ****************************************************************
+  Reset the Ambari Server:
+  ambari-server stop
+  
+  ambari-server reset
+  
+  ambari-server start
+  
+  
+ Ques: No Internet Connection from VMware with CentOS 7 
+Ans:-   #dhclient –v
+  
+  
+yum remove smartsense-hst 
+rm -rf /var/log/smartsense/
+
+STR :
+1. Install smartsense
+2. Delete smartsense
+3. Install smartsense.
